@@ -11,7 +11,7 @@ The convergence-adaptive roundtrip enhanced sampling method enables rapid and ac
     - `python $CAR_SCRIPT_DIR/car_converge_control.py -i car_run_input.txt`
 
 ## Details of car_run_input.txt
-'''
+```
 ## input file for convergence adaptive control md run
 [normal_alc_md]
 simulation_software     = amber # the simulation software
@@ -30,4 +30,4 @@ error_max_lambda_0to1   = 0.15 # specify the uncertainty allowed for an entire t
 ifrun_preliminary_md    = True # whether to run pre-equilibrium MD at initial state 0
 ifuse_initial_rst       = True # whether to start MD with initial input coordinate_file, else specify a file_path to run continuous MD
 ifoverwrite             = True # if True, history directories will be removed, else concat the results of new simulation to existed files.
-'''
+```
