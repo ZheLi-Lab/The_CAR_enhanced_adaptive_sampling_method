@@ -1,0 +1,4 @@
+count,fe_forward,fe_diff_forward,fe_5std_forward,fe_moving1,fe_moving2,fe_moving3,fe_moving4,moving_estimator_stability,fe_diff_ratio50,forward-reverse_estimator_coincidence,time_serials_low_gap_rate,converge_score
+0,-80.796,,,-80.246,-82.034,-79.261,-83.328,1.4167,3.6282,3.5172,0.0,0
+1,-81.256,-0.46,0.23,-78.566,-84.772,-84.103,-82.866,2.2232,2.3992,2.2442,0.0,0
+2,-81.544,-0.288,0.308,-85.057,-83.174,-83.07,-84.479,1.2242,4.2778,2.8778,0.0,0

@@ -1,0 +1,479 @@
+
+          -------------------------------------------------------
+          Amber 20 PMEMD                              2020
+          -------------------------------------------------------
+
+| PMEMD implementation of SANDER, Release 18
+
+|  Compiled date/time: Tue Apr 28 09:19:54 2020
+| Run on 07/19/2024 at 17:13:24
+
+|   Executable path: pmemd
+| Working directory: /nfs/zli_gpu2/bin/developed_softwares/CAR_method/example/0.0_0.0_0.0
+|          Hostname: compute-0-9.local
+
+  [-O]verwriting output
+
+File Assignments:
+|   MDIN: heat-cpu.in                                                           
+|  MDOUT: heat-cpu.out                                                          
+| INPCRD: min.rst                                                               
+|   PARM: ../lM2A.prmtop                                                        
+| RESTRT: heat-cpu.rst                                                          
+|   REFC: min.rst                                                               
+|  MDVEL: mdvel                                                                 
+|   MDEN: mden                                                                  
+|  MDCRD: heat-cpu.netcdf                                                       
+| MDINFO: heat-cpu.mdinfo                                                       
+|  MDFRC: mdfrc                                                                 
+
+
+ Here is the input file:
+
+NVT MD w/No position restraints and PME (sander)                               
+ &cntrl                                                                        
+  ntx    = 1,                                                                  
+  irest  = 0,                                                                  
+  ntpr   = 100,                                                                
+  ntwx   = 10000,                                                              
+  ntwe   = 10000,                                                              
+  ntwr   = 10000,                                                              
+  ig     = -1,                                                                 
+                                                                               
+  ntb    = 1,                                                                  
+  cut    = 10.0,                                                               
+  iwrap  = 1,                                                                  
+  ntr = 1, restraint_wt = 10.00,                                               
+  restraintmask='!:WAT & !@H=',                                                
+                                                                               
+  nstlim = 10,                                                                 
+  t      = 0.0,                                                                
+  dt     = 0.001,                                                              
+                                                                               
+  temp0  = 300.0,                                                              
+  tempi  = 0.0,                                                                
+  ntt    = 3,                                                                  
+  tautp  = 2.0,                                                                
+                                                                               
+  ntf    = 1,                                                                  
+  ntc    = 2,                                                                  
+  iwrap=1, ioutfm=1, ntwv=-1,ntave=1000,                                       
+  icfe = 1, ifsc = 1,                                                          
+  timask1=':1,2',                                                              
+  timask2=':3',                                                                
+  scmask1=':2',                                                                
+  scmask2='',                                                                  
+  ifmbar = 1,                                                                  
+  nmropt = 1,                                                                  
+/                                                                              
+ &ewald                                                                        
+ /                                                                             
+                                                                               
+ &wt                                                                           
+   type='TEMP0',                                                               
+   istep1 = 0, istep2 = 25000,                                                 
+   value1 = 0.1, value2 = 300.0                                                
+ /                                                                             
+                                                                               
+  clambda = 0.0,                                                               
+  mbar_states = 10,                                                            
+  mbar_lambda = 0.0, 0.0, 0.2, 0.2, 0.5, 0.5, 0.6, 0.6, 1.0, 1.0,              
+ &wt type = 'END'                                                              
+ /                                                                             
+
+
+Note: ig = -1. Setting random seed to   405351 based on wallclock time in 
+      microseconds.
+| irandom = 1, using AMBER's internal random number generator (default).
+| ERROR:   mbar_states not set, please set  mbar_states to the number of lambdas you wish sample
+| INFO:    mbar_lambda is not defined  and will be automatically created.
+ 
+ 
+| Conditional Compilation Defines Used:
+| PUBFFT
+| BINTRAJ
+| EMIL
+
+| Largest sphere to fit in unit cell has radius =    19.477
+
+| New format PARM file being parsed.
+| Version =    1.000 Date = 08/02/22 Time = 19:36:52
+
+| Note: 1-4 EEL scale factors are being read from the topology file.
+
+| Note: 1-4 VDW scale factors are being read from the topology file.
+| Duplicated    0 dihedrals
+
+| Duplicated    0 dihedrals
+
+--------------------------------------------------------------------------------
+   1.  RESOURCE   USE: 
+--------------------------------------------------------------------------------
+
+ getting box info from netcdf restart file
+ NATOM  =    4548 NTYPES =      17 NBONH =    4492 MBONA  =      62
+ NTHETH =     105 MTHETA =      88 NPHIH =     188 MPHIA  =     154
+ NHPARM =       0 NPARM  =       0 NNB   =    6494 NRES   =    1485
+ NBONA  =      62 NTHETA =      88 NPHIA =     154 NUMBND =      22
+ NUMANG =      36 NPTRA  =      19 NATYP =      18 NPHB   =       1
+ IFBOX  =       1 NMXRS  =      50 IFCAP =       0 NEXTRA =       0
+ NCOPY  =       0
+
+| Coordinate Index Table dimensions:     7    7    7
+| Direct force subcell size =     5.6495    5.8694    5.5648
+
+     BOX TYPE: RECTILINEAR
+
+--------------------------------------------------------------------------------
+   2.  CONTROL  DATA  FOR  THE  RUN
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+
+General flags:
+     imin    =       0, nmropt  =       1
+
+Nature and format of input:
+     ntx     =       1, irest   =       0, ntrx    =       1
+
+Nature and format of output:
+     ntxo    =       2, ntpr    =     100, ntrx    =       1, ntwr    =   10000
+     iwrap   =       1, ntwx    =   10000, ntwv    =      -1, ntwe    =   10000
+     ioutfm  =       1, ntwprt  =       0, idecomp =       0, rbornstat=      0
+
+Potential function:
+     ntf     =       1, ntb     =       1, igb     =       0, nsnb    =      25
+     ipol    =       0, gbsa    =       0, iesp    =       0
+     dielc   =   1.00000, cut     =  10.00000, intdiel =   1.00000
+
+Frozen or restrained atoms:
+     ibelly  =       0, ntr     =       1
+     restraint_wt =  10.00000
+
+Molecular dynamics:
+     nstlim  =        10, nscm    =         0, nrespa  =         1
+     t       =   0.00000, dt      =   0.00100, vlimit  =  20.00000
+
+Langevin dynamics temperature regulation:
+     ig      =  405351
+     temp0   = 300.00000, tempi   =   0.00000, gamma_ln=   0.00000
+
+SHAKE:
+     ntc     =       2, jfastw  =       0
+     tol     =   0.00001
+
+NMR refinement options:
+     iscale  =       0, noeskp  =       1, ipnlty  =       1, mxsub   =       1
+     scalm   = 100.00000, pencut  =   0.10000, tausw   =   0.10000
+
+Free energy options:
+     icfe    =       1, ifsc    =       1, klambda =       1
+     clambda =  0.0000, scalpha =  0.5000, scbeta  = 12.0000
+     sceeorder =       2
+     dynlmb =  0.0000 logdvdl =       0
+
+FEP MBAR options:
+     ifmbar  =       1,  bar_intervall =      100
+     mbar_states =       0
+
+| Intermolecular bonds treatment:
+|     no_intermolecular_bonds =       1
+
+| Energy averages sample interval:
+|     ene_avg_sampling =       1
+
+Ewald parameters:
+     verbose =       0, ew_type =       0, nbflag  =       1, use_pme =       1
+     vdwmeth =       1, eedmeth =       1, netfrc  =       1
+     Box X =   39.547   Box Y =   41.086   Box Z =   38.954
+     Alpha =   90.000   Beta  =   90.000   Gamma =   90.000
+     NFFT1 =   40       NFFT2 =   45       NFFT3 =   40
+     Cutoff=   10.000   Tol   =0.100E-04
+     Ewald Coefficient =  0.27511
+     Interpolation order =    4
+
+    LOADING THE CONSTRAINED ATOMS AS GROUPS
+
+
+   5.  REFERENCE ATOM COORDINATES
+
+  default_name                                                                    
+     Mask !:WAT & !@H=; matches    56 atoms
+     TI Mask 1 :1,2; matches     52 atoms
+     TI Mask 2 :3; matches     50 atoms
+     TI region 1:    4498 atoms
+     TI region 2:    4496 atoms
+     SC Mask 1 :2; matches      2 atoms
+
+    MBAR - lambda values considered:
+       0 total: 
+    Extra energies will be computed      0 times.
+
+--------------------------------------------------------------------------------
+   3.  ATOMIC COORDINATES AND VELOCITIES
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+ begin time read from input coords =     0.000 ps
+
+
+
+           Begin reading energy term weight changes/NMR restraints
+ WEIGHT CHANGES:
+ TEMP0         0  25000    0.100000  300.000000      0      0
+
+ RESTRAINTS:
+                          ** No restraint defined **
+
+                  Done reading weight changes/NMR restraints
+
+
+ 
+ Number of triangulated 3-point waters found:     1482
+ WARNING: SHAKEn bond for atoms       51        7 is partially softcore.
+ WARNING: SHAKEn bond for atoms       52        7 is partially softcore.
+ Coordinates for common atoms will be synchronized from V0. 
+ Consider using noshake mask or disabling SHAKE.
+
+ Number of shake restraints removed in TI region  1 :        0
+ Number of shake restraints removed in TI region  2 :        0
+
+     Sum of charges for TI region  1 =  -0.00249680
+     Forcing neutrality...
+
+
+     Sum of charges for TI region  2 =  -0.00299999
+     Forcing neutrality...
+
+| Dynamic Memory, Types Used:
+| Reals              331242
+| Integers           185512
+
+| Nonbonded Pairs Initial Allocation:     1375656
+
+--------------------------------------------------------------------------------
+   4.  RESULTS
+--------------------------------------------------------------------------------
+
+ ---------------------------------------------------
+ APPROXIMATING switch and d/dx switch using CUBIC SPLINE INTERPOLATION
+ using   5000.0 points per unit in tabled values
+ TESTING RELATIVE ERROR over r ranging from 0.0 to cutoff
+| CHECK switch(x): max rel err =   0.2738E-14   at   2.422500
+| CHECK d/dx switch(x): max rel err =   0.8314E-11   at   2.736960
+ ---------------------------------------------------
+|---------------------------------------------------
+| APPROXIMATING direct energy using CUBIC SPLINE INTERPOLATION
+|  with   50.0 points per unit in tabled values
+| Relative Error Limit not exceeded for r .gt.   2.33
+| APPROXIMATING direct force using CUBIC SPLINE INTERPOLATION
+|  with   50.0 points per unit in tabled values
+| Relative Error Limit not exceeded for r .gt.   2.80
+|---------------------------------------------------
+   DOF for the SC part  1 of the system:    4
+   SHAKE constraints in the SC region:    2
+
+| TI region  1
+
+
+ NSTEP =        0   TIME(PS) =       0.000  TEMP(K) =     0.00  PRESS =     0.0
+ Etot   =    -18188.7311  EKtot   =         0.0000  EPtot      =    -18188.7311
+ BOND   =      1441.2624  ANGLE   =        12.8601  DIHED      =        33.2122
+ 1-4 NB =        16.8556  1-4 EEL =      -384.4191  VDWAALS    =      4008.4089
+ EELEC  =    -23316.9111  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =      -148.0898
+ Ewald error estimate:   0.5335E-05
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =           0.01
+ SC_Etot=         0.1266  SC_EKtot=         0.0001  SC_EPtot   =         0.1265
+ SC_BOND=         0.0008  SC_ANGLE=         0.0558  SC_DIHED   =         0.0070
+ SC_14NB=         0.0628  SC_14EEL=         0.0001  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0001  SC_VDW_DER=      -0.2527  SC_DERIV   =        -0.2526
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =        0   TIME(PS) =       0.000  TEMP(K) =     0.00  PRESS =     0.0
+ Etot   =    -18188.7311  EKtot   =         0.0000  EPtot      =    -18188.7311
+ BOND   =      1441.2624  ANGLE   =        12.8601  DIHED      =        33.2122
+ 1-4 NB =        16.8556  1-4 EEL =      -384.4191  VDWAALS    =      4008.4089
+ EELEC  =    -23316.9111  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =      -148.0898
+ Ewald error estimate:   0.5335E-05
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+      A V E R A G E S   O V E R      10 S T E P S
+
+
+ NSTEP =       10   TIME(PS) =       0.010  TEMP(K) =    48.45  PRESS =     0.0
+ Etot   =    -16451.9629  EKtot   =       434.4459  EPtot      =    -16886.4087
+ BOND   =       147.0508  ANGLE   =        12.5939  DIHED      =        33.1945
+ 1-4 NB =        16.9129  1-4 EEL =      -384.4527  VDWAALS    =      4012.0507
+ EELEC  =    -20723.7639  EHBOND  =         0.0000  RESTRAINT  =         0.0051
+ EAMBER (non-restraint)  =    -16886.4138
+ DV/DL  =      -149.2458
+ Ewald error estimate:   0.4770E-05
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+  Softcore part of the system:       2 atoms,       TEMP(K)    =           1.02
+ SC_Etot=         0.1269  SC_EKtot=         0.0041  SC_EPtot   =         0.1228
+ SC_BOND=         0.0001  SC_ANGLE=         0.0531  SC_DIHED   =         0.0066
+ SC_14NB=         0.0628  SC_14EEL=         0.0001  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0001  SC_VDW_DER=      -0.2502  SC_DERIV   =        -0.2501
+ ------------------------------------------------------------------------------
+
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =       10   TIME(PS) =       0.010  TEMP(K) =    95.45  PRESS =     0.0
+ Etot   =       654.2237  EKtot   =       855.8613  EPtot      =       434.1297
+ BOND   =       431.4039  ANGLE   =         0.1979  DIHED      =         0.0173
+ 1-4 NB =         0.0428  1-4 EEL =         0.2280  VDWAALS    =         4.8723
+ EELEC  =       864.3828  EHBOND  =         0.0000  RESTRAINT  =         0.0064
+ EAMBER (non-restraint)  =       434.1232
+ DV/DL  =         0.3861
+ Ewald error estimate:   0.3473E-05
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =           1.07
+ SC_Etot=         0.0029  SC_EKtot=         0.0043  SC_EPtot   =         0.0019
+ SC_BOND=         0.0002  SC_ANGLE=         0.0016  SC_DIHED   =         0.0002
+ SC_14NB=         0.0002  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=       0.0020  SC_DERIV   =         0.0020
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+      A V E R A G E S   O V E R      10 S T E P S
+
+
+ NSTEP =       10   TIME(PS) =       0.010  TEMP(K) =    48.47  PRESS =     0.0
+ Etot   =    -16451.9669  EKtot   =       434.4418  EPtot      =    -16886.4087
+ BOND   =       147.0508  ANGLE   =        12.5939  DIHED      =        33.1945
+ 1-4 NB =        16.9129  1-4 EEL =      -384.4527  VDWAALS    =      4012.0507
+ EELEC  =    -20723.7639  EHBOND  =         0.0000  RESTRAINT  =         0.0051
+ EAMBER (non-restraint)  =    -16886.4138
+ DV/DL  =      -149.2458
+ Ewald error estimate:   0.4770E-05
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =       10   TIME(PS) =       0.010  TEMP(K) =    95.50  PRESS =     0.0
+ Etot   =       654.2254  EKtot   =       855.8631  EPtot      =       434.1297
+ BOND   =       431.4039  ANGLE   =         0.1979  DIHED      =         0.0173
+ 1-4 NB =         0.0428  1-4 EEL =         0.2280  VDWAALS    =         4.8723
+ EELEC  =       864.3828  EHBOND  =         0.0000  RESTRAINT  =         0.0064
+ EAMBER (non-restraint)  =       434.1232
+ DV/DL  =         0.3861
+ Ewald error estimate:   0.3473E-05
+ ------------------------------------------------------------------------------
+
+
+      DV/DL, AVERAGES OVER      10 STEPS
+
+
+ NSTEP =       10   TIME(PS) =       0.010  TEMP(K) =    95.50  PRESS =     0.0
+ Etot   =         0.0000  EKtot   =         0.0000  EPtot      =      -149.2458
+ BOND   =        -0.0000  ANGLE   =        -0.0000  DIHED      =        -0.0000
+ 1-4 NB =         0.1197  1-4 EEL =      -192.8260  VDWAALS    =        -0.1005
+ EELEC  =        43.5610  EHBOND  =         0.0000  RESTRAINT  =        -0.0000
+ EAMBER (non-restraint)  =      -149.2458
+ DV/DL  =      -149.2458
+ Ewald error estimate:   0.0000E+00
+ ------------------------------------------------------------------------------
+
+
+ NMR restraints on final step:
+
+--------------------------------------------------------------------------------
+   5.  TIMINGS
+--------------------------------------------------------------------------------
+
+|  NonSetup CPU Time in Major Routines:
+|
+|     Routine           Sec        %
+|     ------------------------------
+|     Nonbond           0.50   98.12
+|     Bond              0.00    0.24
+|     Angle             0.00    0.06
+|     Dihedral          0.00    0.25
+|     Shake             0.00    0.50
+|     RunMD             0.00    0.81
+|     Other             0.00    0.02
+|     ------------------------------
+|     Total             0.51
+
+|  PME Nonbond Pairlist CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     Set Up Cit           0.00    0.06
+|     Build List           0.04    7.35
+|     ---------------------------------
+|     Total                0.04    7.41
+
+|  PME Direct Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     NonBonded Calc       0.33   65.13
+|     Exclude Masked       0.01    1.00
+|     Other                0.01    0.99
+|     ---------------------------------
+|     Total                0.34   67.12
+
+|  PME Reciprocal Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     1D bspline           0.00    0.83
+|     Grid Charges         0.01    1.78
+|     Scalar Sum           0.02    4.57
+|     Gradient Sum         0.02    3.31
+|     FFT                  0.07   13.10
+|     ---------------------------------
+|     Total                0.12   23.60
+
+|  Final Performance Info:
+|     -----------------------------------------------------
+|     Average timings for last      10 steps:
+|     Elapsed(s) =       0.52 Per Step(ms) =      51.86
+|         ns/day =       1.67   seconds/ns =   51857.10
+|
+|     Average timings for all steps:
+|     Elapsed(s) =       0.52 Per Step(ms) =      51.86
+|         ns/day =       1.67   seconds/ns =   51857.10
+|     -----------------------------------------------------
+
+|  Setup CPU time:            0.09 seconds
+|  NonSetup CPU time:         0.51 seconds
+|  Total CPU time:            0.59 seconds     0.00 hours
+
+|  Setup wall time:           0    seconds
+|  NonSetup wall time:        1    seconds
+|  Total wall time:           1    seconds     0.00 hours

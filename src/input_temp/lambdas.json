@@ -1,0 +1,9 @@
+{
+    "test_mbar":
+    {
+        "lambda_restraints"     : [0.0, 0.0, 0.0, 0.0, 0.0],
+        "lambda_electrostatics" : [0.0, 0.3, 0.6, 0.9, 1.0],
+        "lambda_sterics"        : [0.0, 0.3, 0.6, 0.9, 1.0]
+    },
+    
+"END":"END"}

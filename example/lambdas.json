@@ -1,0 +1,9 @@
+{
+    "cal_mbar_lambda":
+    {
+        "lambda_restraints"     : [0.0, 0.0, 0.0, 0.0, 0.0],
+       "lambda_electrostatics"  : [0.0, 0.2, 0.5, 0.6, 1.0],
+        "lambda_sterics"        : [0.0, 0.2, 0.5, 0.6, 1.0]
+    }
+    
+}
