@@ -1,0 +1,41 @@
+NPT MD w/No position restraints and PME (sander)
+ &cntrl
+  ntx    = 5,
+  irest  = 1,
+  ntpr   = 100,
+  ntwx   = 10000,
+  ntwe   = 10000,
+  ntwr   = 10000,
+  ig     = -1,
+
+  ntb    = 2,
+  ntp = 1, pres0 = 1.0, taup = 2.0,gamma_ln = 2.0,
+  cut    = 10.0,
+  iwrap  = 1,
+  barostat = 2,
+  ntr = 1, restraint_wt = 10.00,
+  restraintmask='!:WAT & !@H=',
+
+  nstlim = 5000,
+  t      = 0.0,
+  dt     = 0.002,
+
+  temp0  = 300.0,
+  tempi  = 300.0,
+  ntt    = 3,
+  tautp  = 2.0,
+
+  ntf    = 1,
+  ntc    = 2,
+  iwrap=1, ioutfm=1, ntwv=-1,ntave=1000,
+  icfe = 1, ifsc = 1,
+  timask1=':1,2',
+  timask2=':3',
+  scmask1=':2',
+  scmask2='',
+  ifmbar = 1,
+  clambda = 0.0,
+  mbar_states = 10,
+  mbar_lambda = 0.0, 0.0, 0.2, 0.2, 0.5, 0.5, 0.6, 0.6, 1.0, 1.0,
+&end
+ /

@@ -1,0 +1,5 @@
+parm ../*.prmtop
+trajin ../prev.rst
+autoimage
+trajout prev_cen.rst
+run

@@ -1,0 +1,50 @@
+NVT MD w/No position restraints and PME (sander)
+ &cntrl
+  ntx    = 1,
+  irest  = 0,
+  ntpr   = 100,
+  ntwx   = 10000,
+  ntwe   = 10000,
+  ntwr   = 10000,
+  ig     = -1,
+
+  ntb    = 1,
+  cut    = 10.0,
+  iwrap  = 1,
+  ntr = 1, restraint_wt = 10.00,
+  restraintmask='!:WAT & !@H=',
+
+  nstlim = 50000,
+  t      = 0.0,
+  dt     = 0.002,
+
+  temp0  = 300.0,
+  tempi  = 0.0,
+  ntt    = 3,
+  tautp  = 2.0,
+
+  ntf    = 1,
+  ntc    = 2,
+  iwrap=1, ioutfm=1, ntwv=-1,ntave=1000,
+  icfe = 1, ifsc = 1,
+  timask1=':1,2',
+  timask2=':3',
+  scmask1=':2',
+  scmask2='',
+  ifmbar = 1,
+  nmropt = 1,
+/
+ &ewald
+ /
+
+ &wt
+   type='TEMP0',
+   istep1 = 0, istep2 = 25000,
+   value1 = 0.1, value2 = 300.0
+ /
+
+  clambda = 0.0,
+  mbar_states = 10,
+  mbar_lambda = 0.0, 0.0, 0.2, 0.2, 0.5, 0.5, 0.6, 0.6, 1.0, 1.0,
+ &wt type = 'END'
+ /
