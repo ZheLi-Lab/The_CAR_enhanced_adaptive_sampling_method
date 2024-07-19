@@ -27,7 +27,10 @@ num_neighbors_state     = 5 # the number of neighboring states to record potenti
 min_reitera_times       = 2 # specify the minimun reiteration times (an iteration includes a switchback round and a restart forward round) of a part
 max_reitera_times       = 50 # specify the maximum reiteration times (an iteration includes a switchback round and a restart forward round) to terminate simulations of a part
 error_max_lambda_0to1   = 0.15 # specify the uncertainty allowed for an entire thermodynamic process
-ifrun_preliminary_md    = True # whether to run pre-equilibrium MD at initial state 0
-ifuse_initial_rst       = True # whether to start MD with initial input coordinate_file, else specify a file_path to run continuous MD
+ifrun_preliminary_md    = True # whether to run pre-equilibrium MD run at initial state 0
+ifuse_initial_rst       = True # whether to start MD run with initial input coordinate_file, else specify a file_path to run continuous MD simulation
 ifoverwrite             = True # if True, history directories will be removed, else concat the results of new simulation to existed files.
 ```
+
+## Data available 
+The input and structure files of benchmark for the CAR enhanced adaptive sampling can be obtained at [scidb.cn](https://www.scidb.cn/s/B7VF7r).
