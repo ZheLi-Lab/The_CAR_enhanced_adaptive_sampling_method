@@ -44,7 +44,7 @@ jobs:
     runs-on: centos
     environment:
       name: pypi
-      url: https://pypi.org/p/car  # Replace <package-name> with your PyPI project name
+      url: https://pypi.org/p/car-fep  # Replace <package-name> with your PyPI project name
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
       
@@ -108,7 +108,7 @@ jobs:
 
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/car
+      url: https://test.pypi.org/p/car-fep
 
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
