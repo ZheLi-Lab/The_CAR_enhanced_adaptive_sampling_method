@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: car-fep
+Version: 1.0.5
+Summary: Convergence-adaptive roundtrip enhanced sampling toolkits
+Home-page: https://github.com/ZheLi-Lab/The_CAR_enhanced_adaptive_sampling_method
+Author: Zhe Li, Yufen Yao, Runduo Liu
+Author-email: lizhe5@mail.sysu.edu.cn
+Platform: linux
+Requires-Python: >=3.9,<3.11
+License-File: LICENSE
+Requires-Dist: numpy==1.22.4
+Requires-Dist: pandas==1.4.4
+Requires-Dist: parse==1.19
+Requires-Dist: matplotlib==3.6
+Requires-Dist: seaborn==0.12.0
+Requires-Dist: openpyxl==3.0.10
+Requires-Dist: scipy==1.9.1
+Requires-Dist: pymbar==3.1
+Requires-Dist: alchemlyb==1.0
+Requires-Dist: jnija2==3.1

@@ -1,0 +1,2 @@
+[console_scripts]
+run-car = car.main:main

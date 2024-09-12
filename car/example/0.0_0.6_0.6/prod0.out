@@ -1,0 +1,1554 @@
+
+          -------------------------------------------------------
+          Amber 20 PMEMD                              2020
+          -------------------------------------------------------
+
+| PMEMD implementation of SANDER, Release 18
+
+|  Compiled date/time: Tue Apr 28 09:19:54 2020
+| Run on 09/12/2024 at 01:49:16
+
+|   Executable path: pmemd.cuda_SPFP
+| Working directory: /nfs/zli_gpu2/bin/developed_softwares/test_car/car/car/example/0.0_0.6_0.6
+|          Hostname: compute-0-8
+
+  [-O]verwriting output
+
+File Assignments:
+|   MDIN: prod0.in                                                              
+|  MDOUT: prod0.out                                                             
+| INPCRD: prev_cen.rst                                                          
+|   PARM: ../lM2A.prmtop                                                        
+| RESTRT: prod0.rst                                                             
+|   REFC: refc                                                                  
+|  MDVEL: mdvel                                                                 
+|   MDEN: mden                                                                  
+|  MDCRD: prod0.netcdf                                                          
+| MDINFO: prod0.mdinfo                                                          
+|  MDFRC: mdfrc                                                                 
+
+
+ Here is the input file:
+
+NVT MD w/No position restraints and PME (sander)                               
+ &cntrl                                                                        
+  ntx    = 5,                                                                  
+  irest  = 1,                                                                  
+  ntpr   = 50,                                                                 
+  ntwx   = 10000,                                                              
+  ntwe   = 10000,                                                              
+  ntwr   = 10000,                                                              
+  ig     = -1,                                                                 
+                                                                               
+  ntb    = 2,                                                                  
+  ntp = 1, pres0 = 1.0, taup = 2.0,gamma_ln = 2.0,                             
+  cut    = 10.0,                                                               
+  iwrap  = 1,                                                                  
+  barostat = 2,                                                                
+                                                                               
+  t      = 0.0,                                                                
+  dt     = 0.002,                                                              
+                                                                               
+  temp0  = 300.0,                                                              
+  tempi  = 300.0,                                                              
+  ntt    = 3,                                                                  
+  tautp  = 2.0,                                                                
+                                                                               
+  ntf    = 1,                                                                  
+  ntc    = 2,                                                                  
+  iwrap=1, ioutfm=1, ntwv=-1,ntave=1000,                                       
+  bar_intervall = 50,                                                          
+  icfe = 1, ifsc = 1,                                                          
+  timask1=':1,2',                                                              
+  timask2=':3',                                                                
+  scmask1=':2',                                                                
+  scmask2='',                                                                  
+  ifmbar = 1,                                                                  
+  nstlim = 1000,                                                               
+  clambda = 0.6,                                                               
+  mbar_states = 8,                                                             
+  mbar_lambda = 0.2, 0.2, 0.5, 0.5, 0.6, 0.6, 1.0, 1.0,                        
+&end                                                                           
+ /                                                                             
+
+
+Note: ig = -1. Setting random seed to   765438 based on wallclock time in 
+      microseconds.
+| irandom = 1, using AMBER's internal random number generator (default).
+ 
+|--------------------- INFORMATION ----------------------
+| GPU (CUDA) Version of PMEMD in use: NVIDIA GPU IN USE.
+|                    Version 18.0.0
+| 
+|                      03/25/2018
+| 
+| Implementation by:
+|                    Ross C. Walker     (SDSC)
+|                    Scott Le Grand     (nVIDIA)
+| 
+| Version 18 performance extensions by:
+|                    David Cerutti     (Rutgers)
+| 
+| Precision model in use:
+|      [SPFP] - Single Precision Forces, 64-bit Fixed Point
+|               Accumulation. (Default)
+| 
+|--------------------------------------------------------
+ 
+|----------------- CITATION INFORMATION -----------------
+|
+|    When publishing work that utilized the CUDA version
+|    of AMBER, please cite the following in addition to
+|    the regular AMBER citations:
+|
+|  - Romelia Salomon-Ferrer; Andreas W. Goetz; Duncan
+|    Poole; Scott Le Grand; Ross C. Walker "Routine
+|    microsecond molecular dynamics simulations with
+|    AMBER - Part II: Particle Mesh Ewald", J. Chem.
+|    Theory Comput., 2013, 9 (9), pp3878-3888,
+|    DOI: 10.1021/ct400314y.
+|
+|  - Andreas W. Goetz; Mark J. Williamson; Dong Xu;
+|    Duncan Poole; Scott Le Grand; Ross C. Walker
+|    "Routine microsecond molecular dynamics simulations
+|    with AMBER - Part I: Generalized Born", J. Chem.
+|    Theory Comput., 2012, 8 (5), pp1542-1555.
+|
+|  - Scott Le Grand; Andreas W. Goetz; Ross C. Walker
+|    "SPFP: Speed without compromise - a mixed precision
+|    model for GPU accelerated molecular dynamics
+|    simulations.", Comp. Phys. Comm., 2013, 184
+|    pp374-380, DOI: 10.1016/j.cpc.2012.09.022
+|
+|    When publishing work that utilized the CUDA version
+|    of TI, BAR, MBAR or FEP please cite the following 
+|    publications in addition to the regular AMBER 
+|    GPU citations:
+|
+|  - Daniel J. Mermelstein; Charles Lin; Gard Nelson; 
+|    Rachael Kretsch; J. Andrew McCammon; Ross C. Walker
+|    "Fast and Flexible GPU Accelerated Binding 
+|    Free Energy Calculations within the AMBER Molecular
+|    Dynamics Package" J. Comp. Chem., 2018,
+|    DOI: 10.1002/jcc.25187
+|
+|  - Tai-Sung Lee; Yuan Hu; Brad Sherborne; Zhuyan Guo;
+|    Darrin M. York
+|    "Toward Fast and Accurate Binding Affinity Prediction with
+|    pmemdGTI: An Efficient Implementation of GPU-Accelerated
+|    Thermodynamic Integration"
+|    J. Chem. Theory Comput., 2017, 13 (7), 3077
+|
+|
+|--------------------------------------------------------
+ 
+|------------------- GPU DEVICE INFO --------------------
+|
+|            CUDA_VISIBLE_DEVICES: not set
+|   CUDA Capable Devices Detected:      8
+|           CUDA Device ID in use:      0
+|                CUDA Device Name: NVIDIA GeForce RTX 4090
+|     CUDA Device Global Mem Size:  24217 MB
+| CUDA Device Num Multiprocessors:    128
+|           CUDA Device Core Freq:   2.52 GHz
+|
+|--------------------------------------------------------
+ 
+ 
+| Conditional Compilation Defines Used:
+| PUBFFT
+| BINTRAJ
+| CUDA
+| EMIL
+
+| Largest sphere to fit in unit cell has radius =    17.458
+
+| New format PARM file being parsed.
+| Version =    1.000 Date = 08/02/22 Time = 19:36:52
+
+| Note: 1-4 EEL scale factors are being read from the topology file.
+
+| Note: 1-4 VDW scale factors are being read from the topology file.
+| Duplicated    0 dihedrals
+
+| Duplicated    0 dihedrals
+
+--------------------------------------------------------------------------------
+   1.  RESOURCE   USE: 
+--------------------------------------------------------------------------------
+
+ getting new box info from bottom of inpcrd
+ NATOM  =    4548 NTYPES =      17 NBONH =    4492 MBONA  =      62
+ NTHETH =     105 MTHETA =      88 NPHIH =     188 MPHIA  =     154
+ NHPARM =       0 NPARM  =       0 NNB   =    6494 NRES   =    1485
+ NBONA  =      62 NTHETA =      88 NPHIA =     154 NUMBND =      22
+ NUMANG =      36 NPTRA  =      19 NATYP =      18 NPHB   =       1
+ IFBOX  =       1 NMXRS  =      50 IFCAP =       0 NEXTRA =       0
+ NCOPY  =       0
+
+| Coordinate Index Table dimensions:     6    6    6
+| Direct force subcell size =     5.9079    6.1378    5.8193
+
+     BOX TYPE: RECTILINEAR
+
+--------------------------------------------------------------------------------
+   2.  CONTROL  DATA  FOR  THE  RUN
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+
+General flags:
+     imin    =       0, nmropt  =       0
+
+Nature and format of input:
+     ntx     =       5, irest   =       1, ntrx    =       1
+
+Nature and format of output:
+     ntxo    =       2, ntpr    =      50, ntrx    =       1, ntwr    =   10000
+     iwrap   =       1, ntwx    =   10000, ntwv    =      -1, ntwe    =   10000
+     ioutfm  =       1, ntwprt  =       0, idecomp =       0, rbornstat=      0
+
+Potential function:
+     ntf     =       1, ntb     =       2, igb     =       0, nsnb    =      25
+     ipol    =       0, gbsa    =       0, iesp    =       0
+     dielc   =   1.00000, cut     =  10.00000, intdiel =   1.00000
+
+Frozen or restrained atoms:
+     ibelly  =       0, ntr     =       0
+
+Molecular dynamics:
+     nstlim  =      1000, nscm    =      1000, nrespa  =         1
+     t       =   0.00000, dt      =   0.00200, vlimit  =  -1.00000
+
+Langevin dynamics temperature regulation:
+     ig      =  765438
+     temp0   = 300.00000, tempi   = 300.00000, gamma_ln=   2.00000
+
+Pressure regulation:
+     ntp     =       1
+     pres0   =   1.00000, comp    =  44.60000, taup    =   2.00000
+     Monte-Carlo Barostat:
+     mcbarint  =     100
+
+SHAKE:
+     ntc     =       2, jfastw  =       0
+     tol     =   0.00001
+
+Free energy options:
+     icfe    =       1, ifsc    =       1, klambda =       1
+     clambda =  0.6000, scalpha =  0.5000, scbeta  = 12.0000
+     sceeorder =       2
+     dynlmb =  0.0000 logdvdl =       0
+
+FEP MBAR options:
+     ifmbar  =       1,  bar_intervall =       50
+     mbar_states =       8
+
+| Intermolecular bonds treatment:
+|     no_intermolecular_bonds =       1
+
+| Energy averages sample interval:
+|     ene_avg_sampling =       1
+
+Ewald parameters:
+     verbose =       0, ew_type =       0, nbflag  =       1, use_pme =       1
+     vdwmeth =       1, eedmeth =       1, netfrc  =       1
+     Box X =   35.447   Box Y =   36.827   Box Z =   34.916
+     Alpha =   90.000   Beta  =   90.000   Gamma =   90.000
+     NFFT1 =   36       NFFT2 =   40       NFFT3 =   36
+     Cutoff=   10.000   Tol   =0.100E-04
+     Ewald Coefficient =  0.27511
+     Interpolation order =    4
+     TI Mask 1 :1,2; matches     52 atoms
+     TI Mask 2 :3; matches     50 atoms
+     TI region 1:    4498 atoms
+     TI region 2:    4496 atoms
+     SC Mask 1 :2; matches      2 atoms
+
+    MBAR - lambda values considered:
+       8 total:  0.2000 0.2000 0.5000 0.5000 0.6000 0.6000 1.0000 1.0000
+    Extra energies will be computed     20 times.
+| MONTE CARLO BAROSTAT IMPORTANT NOTE:
+|   The Monte-Carlo barostat does not require the virial to adjust the system volume.
+|   Since it is an expensive calculation, it is skipped for efficiency. A side-effect
+|   is that the reported pressure is always 0 because it is not calculated.
+
+--------------------------------------------------------------------------------
+   3.  ATOMIC COORDINATES AND VELOCITIES
+--------------------------------------------------------------------------------
+
+Cpptraj Generated Restart                                                       
+ begin time read from input coords =   306.000 ps
+
+ 
+     Molecule     1 is partially softcore
+     Molecule     2 is partially softcore
+ Number of triangulated 3-point waters found:     1482
+   Removing shake constraints from HX1   LBM   2 -- N26   LAM   1
+   Removing shake constraints from H23   LBM   2 -- N26   LAM   1
+ Number of shake restraints removed in TI region  1 :        2
+ Number of shake restraints removed in TI region  2 :        0
+
+     Sum of charges for TI region  1 =  -0.00249680
+     Skip neutralizing charges...
+
+
+     Sum of charges for TI region  2 =  -0.00299999
+     Skip neutralizing charges...
+
+| Dynamic Memory, Types Used:
+| Reals              376225
+| Integers           194647
+
+| Nonbonded Pairs Initial Allocation:     1375656
+
+| GPU memory information (estimate):
+| KB of GPU memory in use:     52148
+| KB of CPU memory in use:     28214
+
+--------------------------------------------------------------------------------
+   4.  RESULTS
+--------------------------------------------------------------------------------
+
+   DOF for the SC part  1 of the system:    6
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14326.218402
+Energy at 0.2000 =    -14326.218402
+Energy at 0.5000 =    -14387.311676
+Energy at 0.5000 =    -14387.311676
+Energy at 0.6000 =    -14407.420411
+Energy at 0.6000 =    -14407.420411
+Energy at 1.0000 =    -14487.411499
+Energy at 1.0000 =    -14487.411499
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =       50   TIME(PS) =     306.100  TEMP(K) =   307.46  PRESS =     0.0
+ Etot   =    -11650.0588  EKtot   =      2757.3616  EPtot      =    -14407.4204
+ BOND   =        10.8561  ANGLE   =        27.2172  DIHED      =        36.3442
+ 1-4 NB =        15.3619  1-4 EEL =      -502.5266  VDWAALS    =      2111.0694
+ EELEC  =    -16105.7425  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45579.4340
+                                                    Density    =         0.9875
+ DV/DL  =      -200.7462
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         344.22
+ SC_Etot=         3.9940  SC_EKtot=         2.0521  SC_EPtot   =         1.9419
+ SC_BOND=         0.3201  SC_ANGLE=         1.5181  SC_DIHED   =         0.1037
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.7685  SC_DERIV   =        -0.7685
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =       50   TIME(PS) =     306.100  TEMP(K) =   307.44  PRESS =     0.0
+ Etot   =    -11652.1109  EKtot   =      2755.3095  EPtot      =    -14407.4204
+ BOND   =        10.8561  ANGLE   =        27.2172  DIHED      =        36.3442
+ 1-4 NB =        15.3619  1-4 EEL =      -502.5266  VDWAALS    =      2111.0694
+ EELEC  =    -16105.7425  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45579.4340
+                                                    Density    =         0.9874
+ DV/DL  =      -200.7462
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14275.756956
+Energy at 0.2000 =    -14275.756956
+Energy at 0.5000 =    -14336.556589
+Energy at 0.5000 =    -14336.556589
+Energy at 0.6000 =    -14356.441553
+Energy at 0.6000 =    -14356.441553
+Energy at 1.0000 =    -14435.491163
+Energy at 1.0000 =    -14435.491163
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      100   TIME(PS) =     306.200  TEMP(K) =   298.86  PRESS =     0.0
+ Etot   =    -11676.2335  EKtot   =      2680.2081  EPtot      =    -14356.4416
+ BOND   =         9.6459  ANGLE   =        26.8190  DIHED      =        39.3984
+ 1-4 NB =        16.2796  1-4 EEL =      -506.4487  VDWAALS    =      2023.8657
+ EELEC  =    -15966.0014  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45836.7373
+                                                    Density    =         0.9819
+ DV/DL  =      -198.4443
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         275.40
+ SC_Etot=         3.5391  SC_EKtot=         1.6418  SC_EPtot   =         1.8973
+ SC_BOND=         1.2399  SC_ANGLE=         0.5237  SC_DIHED   =         0.1337
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.8203  SC_DERIV   =        -0.8203
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      100   TIME(PS) =     306.200  TEMP(K) =   298.87  PRESS =     0.0
+ Etot   =    -11677.8753  EKtot   =      2678.5662  EPtot      =    -14356.4416
+ BOND   =         9.6459  ANGLE   =        26.8190  DIHED      =        39.3984
+ 1-4 NB =        16.2796  1-4 EEL =      -506.4487  VDWAALS    =      2023.8657
+ EELEC  =    -15966.0014  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45836.7373
+                                                    Density    =         0.9819
+ DV/DL  =      -198.4443
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14318.325898
+Energy at 0.2000 =    -14318.325898
+Energy at 0.5000 =    -14373.754810
+Energy at 0.5000 =    -14373.754810
+Energy at 0.6000 =    -14392.138368
+Energy at 0.6000 =    -14392.138368
+Energy at 1.0000 =    -14465.504053
+Energy at 1.0000 =    -14465.504053
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      150   TIME(PS) =     306.300  TEMP(K) =   307.57  PRESS =     0.0
+ Etot   =    -11633.8279  EKtot   =      2758.3105  EPtot      =    -14392.1384
+ BOND   =        16.1156  ANGLE   =        31.7226  DIHED      =        38.2156
+ 1-4 NB =        13.7934  1-4 EEL =      -514.7902  VDWAALS    =      1978.1623
+ EELEC  =    -15955.3577  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45836.7373
+                                                    Density    =         0.9819
+ DV/DL  =      -183.7076
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         219.21
+ SC_Etot=         3.1427  SC_EKtot=         1.3068  SC_EPtot   =         1.8359
+ SC_BOND=         0.1565  SC_ANGLE=         1.2807  SC_DIHED   =         0.3986
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.2934  SC_DERIV   =        -0.2934
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      150   TIME(PS) =     306.300  TEMP(K) =   307.62  PRESS =     0.0
+ Etot   =    -11635.1347  EKtot   =      2757.0037  EPtot      =    -14392.1384
+ BOND   =        16.1156  ANGLE   =        31.7226  DIHED      =        38.2156
+ 1-4 NB =        13.7934  1-4 EEL =      -514.7902  VDWAALS    =      1978.1623
+ EELEC  =    -15955.3577  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45836.7373
+                                                    Density    =         0.9819
+ DV/DL  =      -183.7076
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14235.751653
+Energy at 0.2000 =    -14235.751653
+Energy at 0.5000 =    -14294.411834
+Energy at 0.5000 =    -14294.411834
+Energy at 0.6000 =    -14313.763893
+Energy at 0.6000 =    -14313.763893
+Energy at 1.0000 =    -14390.802502
+Energy at 1.0000 =    -14390.802502
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      200   TIME(PS) =     306.400  TEMP(K) =   298.29  PRESS =     0.0
+ Etot   =    -11638.6126  EKtot   =      2675.1513  EPtot      =    -14313.7639
+ BOND   =        10.7476  ANGLE   =        36.0934  DIHED      =        36.1811
+ 1-4 NB =        16.1088  1-4 EEL =      -508.0549  VDWAALS    =      2105.7884
+ EELEC  =    -16010.6284  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9861
+ DV/DL  =      -193.2411
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         248.95
+ SC_Etot=         3.1733  SC_EKtot=         1.4841  SC_EPtot   =         1.6892
+ SC_BOND=         0.8163  SC_ANGLE=         0.8180  SC_DIHED   =         0.0550
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.6446  SC_DERIV   =        -0.6446
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      200   TIME(PS) =     306.400  TEMP(K) =   298.33  PRESS =     0.0
+ Etot   =    -11640.0967  EKtot   =      2673.6672  EPtot      =    -14313.7639
+ BOND   =        10.7476  ANGLE   =        36.0934  DIHED      =        36.1811
+ 1-4 NB =        16.1088  1-4 EEL =      -508.0549  VDWAALS    =      2105.7884
+ EELEC  =    -16010.6284  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9860
+ DV/DL  =      -193.2411
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14323.358433
+Energy at 0.2000 =    -14323.358433
+Energy at 0.5000 =    -14380.830014
+Energy at 0.5000 =    -14380.830014
+Energy at 0.6000 =    -14399.925844
+Energy at 0.6000 =    -14399.925844
+Energy at 1.0000 =    -14476.176545
+Energy at 1.0000 =    -14476.176545
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      250   TIME(PS) =     306.500  TEMP(K) =   303.74  PRESS =     0.0
+ Etot   =    -11675.9378  EKtot   =      2723.9880  EPtot      =    -14399.9258
+ BOND   =        11.6286  ANGLE   =        32.3765  DIHED      =        39.2780
+ 1-4 NB =        14.8327  1-4 EEL =      -503.6055  VDWAALS    =      1997.5874
+ EELEC  =    -15992.0234  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9861
+ DV/DL  =      -190.8626
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         416.68
+ SC_Etot=         3.4780  SC_EKtot=         2.4840  SC_EPtot   =         0.9940
+ SC_BOND=         0.0294  SC_ANGLE=         0.8839  SC_DIHED   =         0.0807
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.2359  SC_DERIV   =        -0.2359
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      250   TIME(PS) =     306.500  TEMP(K) =   303.66  PRESS =     0.0
+ Etot   =    -11678.4219  EKtot   =      2721.5040  EPtot      =    -14399.9258
+ BOND   =        11.6286  ANGLE   =        32.3765  DIHED      =        39.2780
+ 1-4 NB =        14.8327  1-4 EEL =      -503.6055  VDWAALS    =      1997.5874
+ EELEC  =    -15992.0234  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9860
+ DV/DL  =      -190.8626
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14325.217264
+Energy at 0.2000 =    -14325.217264
+Energy at 0.5000 =    -14381.910432
+Energy at 0.5000 =    -14381.910432
+Energy at 0.6000 =    -14400.783531
+Energy at 0.6000 =    -14400.783531
+Energy at 1.0000 =    -14476.220784
+Energy at 1.0000 =    -14476.220784
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      300   TIME(PS) =     306.600  TEMP(K) =   300.47  PRESS =     0.0
+ Etot   =    -11706.1294  EKtot   =      2694.6541  EPtot      =    -14400.7835
+ BOND   =         7.5804  ANGLE   =        35.4126  DIHED      =        40.7883
+ 1-4 NB =        17.3655  1-4 EEL =      -507.2924  VDWAALS    =      2060.3045
+ EELEC  =    -16054.9425  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9861
+ DV/DL  =      -188.6914
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         369.00
+ SC_Etot=         3.2658  SC_EKtot=         2.1998  SC_EPtot   =         1.0660
+ SC_BOND=         0.7904  SC_ANGLE=         0.2468  SC_DIHED   =         0.0287
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.0983  SC_DERIV   =        -0.0983
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      300   TIME(PS) =     306.600  TEMP(K) =   300.42  PRESS =     0.0
+ Etot   =    -11708.3292  EKtot   =      2692.4543  EPtot      =    -14400.7835
+ BOND   =         7.5804  ANGLE   =        35.4126  DIHED      =        40.7883
+ 1-4 NB =        17.3655  1-4 EEL =      -507.2924  VDWAALS    =      2060.3045
+ EELEC  =    -16054.9425  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9860
+ DV/DL  =      -188.6914
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14382.589330
+Energy at 0.2000 =    -14382.589330
+Energy at 0.5000 =    -14439.347249
+Energy at 0.5000 =    -14439.347249
+Energy at 0.6000 =    -14458.064547
+Energy at 0.6000 =    -14458.064547
+Energy at 1.0000 =    -14532.653351
+Energy at 1.0000 =    -14532.653351
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      350   TIME(PS) =     306.700  TEMP(K) =   310.08  PRESS =     0.0
+ Etot   =    -11677.1844  EKtot   =      2780.8801  EPtot      =    -14458.0645
+ BOND   =        10.6750  ANGLE   =        36.2531  DIHED      =        41.1955
+ 1-4 NB =        13.2752  1-4 EEL =      -510.5511  VDWAALS    =      2113.0758
+ EELEC  =    -16161.9880  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9861
+ DV/DL  =      -186.9436
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         380.53
+ SC_Etot=         3.3163  SC_EKtot=         2.2686  SC_EPtot   =         1.0478
+ SC_BOND=         0.1203  SC_ANGLE=         0.7988  SC_DIHED   =         0.1286
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.4716  SC_DERIV   =        -0.4716
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      350   TIME(PS) =     306.700  TEMP(K) =   310.04  PRESS =     0.0
+ Etot   =    -11679.4530  EKtot   =      2778.6115  EPtot      =    -14458.0645
+ BOND   =        10.6750  ANGLE   =        36.2531  DIHED      =        41.1955
+ 1-4 NB =        13.2752  1-4 EEL =      -510.5511  VDWAALS    =      2113.0758
+ EELEC  =    -16161.9880  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45642.2180
+                                                    Density    =         0.9860
+ DV/DL  =      -186.9436
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14348.078922
+Energy at 0.2000 =    -14348.078922
+Energy at 0.5000 =    -14406.670048
+Energy at 0.5000 =    -14406.670048
+Energy at 0.6000 =    -14425.611055
+Energy at 0.6000 =    -14425.611055
+Energy at 1.0000 =    -14500.682319
+Energy at 1.0000 =    -14500.682319
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      400   TIME(PS) =     306.800  TEMP(K) =   302.25  PRESS =     0.0
+ Etot   =    -11714.9588  EKtot   =      2710.6522  EPtot      =    -14425.6111
+ BOND   =         6.5010  ANGLE   =        30.2435  DIHED      =        42.1521
+ 1-4 NB =        14.3504  1-4 EEL =      -503.6871  VDWAALS    =      2135.4845
+ EELEC  =    -16150.6555  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45553.7739
+                                                    Density    =         0.9880
+ DV/DL  =      -188.8209
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         105.88
+ SC_Etot=         4.1363  SC_EKtot=         0.6312  SC_EPtot   =         3.5051
+ SC_BOND=         0.7521  SC_ANGLE=         2.3670  SC_DIHED   =         0.3859
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -1.1427  SC_DERIV   =        -1.1427
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      400   TIME(PS) =     306.800  TEMP(K) =   302.38  PRESS =     0.0
+ Etot   =    -11715.5900  EKtot   =      2710.0210  EPtot      =    -14425.6111
+ BOND   =         6.5010  ANGLE   =        30.2435  DIHED      =        42.1521
+ 1-4 NB =        14.3504  1-4 EEL =      -503.6871  VDWAALS    =      2135.4845
+ EELEC  =    -16150.6555  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45553.7739
+                                                    Density    =         0.9880
+ DV/DL  =      -188.8209
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14374.174644
+Energy at 0.2000 =    -14374.174644
+Energy at 0.5000 =    -14433.000007
+Energy at 0.5000 =    -14433.000007
+Energy at 0.6000 =    -14452.314894
+Energy at 0.6000 =    -14452.314894
+Energy at 1.0000 =    -14529.191307
+Energy at 1.0000 =    -14529.191307
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      450   TIME(PS) =     306.900  TEMP(K) =   299.23  PRESS =     0.0
+ Etot   =    -11768.7519  EKtot   =      2683.5630  EPtot      =    -14452.3149
+ BOND   =        13.8863  ANGLE   =        32.8940  DIHED      =        38.1869
+ 1-4 NB =        16.9980  1-4 EEL =      -511.7565  VDWAALS    =      2096.0072
+ EELEC  =    -16138.5308  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45553.7739
+                                                    Density    =         0.9880
+ DV/DL  =      -192.8316
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         548.52
+ SC_Etot=         5.7234  SC_EKtot=         3.2700  SC_EPtot   =         2.4534
+ SC_BOND=         0.2455  SC_ANGLE=         1.9673  SC_DIHED   =         0.2405
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.6406  SC_DERIV   =        -0.6406
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      450   TIME(PS) =     306.900  TEMP(K) =   299.07  PRESS =     0.0
+ Etot   =    -11772.0219  EKtot   =      2680.2930  EPtot      =    -14452.3149
+ BOND   =        13.8863  ANGLE   =        32.8940  DIHED      =        38.1869
+ 1-4 NB =        16.9980  1-4 EEL =      -511.7565  VDWAALS    =      2096.0072
+ EELEC  =    -16138.5308  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45553.7739
+                                                    Density    =         0.9880
+ DV/DL  =      -192.8316
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14421.943459
+Energy at 0.2000 =    -14421.943459
+Energy at 0.5000 =    -14481.758052
+Energy at 0.5000 =    -14481.758052
+Energy at 0.6000 =    -14501.284863
+Energy at 0.6000 =    -14501.284863
+Energy at 1.0000 =    -14578.930899
+Energy at 1.0000 =    -14578.930899
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      500   TIME(PS) =     307.000  TEMP(K) =   297.85  PRESS =     0.0
+ Etot   =    -11830.1256  EKtot   =      2671.1593  EPtot      =    -14501.2849
+ BOND   =        12.3604  ANGLE   =        25.6328  DIHED      =        43.4960
+ 1-4 NB =        15.0476  1-4 EEL =      -509.9809  VDWAALS    =      2169.0297
+ EELEC  =    -16256.8704  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9931
+ DV/DL  =      -194.8709
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         596.45
+ SC_Etot=         7.2807  SC_EKtot=         3.5558  SC_EPtot   =         3.7249
+ SC_BOND=         1.6590  SC_ANGLE=         1.9859  SC_DIHED   =         0.0800
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.7559  SC_DERIV   =        -0.7559
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      500   TIME(PS) =     307.000  TEMP(K) =   297.65  PRESS =     0.0
+ Etot   =    -11833.6814  EKtot   =      2667.6034  EPtot      =    -14501.2849
+ BOND   =        12.3604  ANGLE   =        25.6328  DIHED      =        43.4960
+ 1-4 NB =        15.0476  1-4 EEL =      -509.9809  VDWAALS    =      2169.0297
+ EELEC  =    -16256.8704  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9930
+ DV/DL  =      -194.8709
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14450.143538
+Energy at 0.2000 =    -14450.143538
+Energy at 0.5000 =    -14508.890384
+Energy at 0.5000 =    -14508.890384
+Energy at 0.6000 =    -14528.004349
+Energy at 0.6000 =    -14528.004349
+Energy at 1.0000 =    -14603.825170
+Energy at 1.0000 =    -14603.825170
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      550   TIME(PS) =     307.100  TEMP(K) =   297.89  PRESS =     0.0
+ Etot   =    -11856.4484  EKtot   =      2671.5560  EPtot      =    -14528.0043
+ BOND   =         6.7747  ANGLE   =        32.6972  DIHED      =        43.4828
+ 1-4 NB =        15.2326  1-4 EEL =      -504.4546  VDWAALS    =      2043.2694
+ EELEC  =    -16165.0065  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9931
+ DV/DL  =      -190.6189
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         141.13
+ SC_Etot=         4.0858  SC_EKtot=         0.8414  SC_EPtot   =         3.2444
+ SC_BOND=         1.9933  SC_ANGLE=         1.1165  SC_DIHED   =         0.1346
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -1.0668  SC_DERIV   =        -1.0668
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      550   TIME(PS) =     307.100  TEMP(K) =   298.00  PRESS =     0.0
+ Etot   =    -11857.2897  EKtot   =      2670.7146  EPtot      =    -14528.0043
+ BOND   =         6.7747  ANGLE   =        32.6972  DIHED      =        43.4828
+ 1-4 NB =        15.2326  1-4 EEL =      -504.4546  VDWAALS    =      2043.2694
+ EELEC  =    -16165.0065  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9930
+ DV/DL  =      -190.6189
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14359.959063
+Energy at 0.2000 =    -14359.959063
+Energy at 0.5000 =    -14423.231305
+Energy at 0.5000 =    -14423.231305
+Energy at 0.6000 =    -14443.257742
+Energy at 0.6000 =    -14443.257742
+Energy at 1.0000 =    -14522.326855
+Energy at 1.0000 =    -14522.326855
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      600   TIME(PS) =     307.200  TEMP(K) =   292.22  PRESS =     0.0
+ Etot   =    -11822.5950  EKtot   =      2620.6627  EPtot      =    -14443.2577
+ BOND   =        11.3842  ANGLE   =        33.7746  DIHED      =        37.4849
+ 1-4 NB =        15.9892  1-4 EEL =      -510.8243  VDWAALS    =      2038.4574
+ EELEC  =    -16069.5237  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9931
+ DV/DL  =      -199.3454
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         398.20
+ SC_Etot=         6.1869  SC_EKtot=         2.3739  SC_EPtot   =         3.8130
+ SC_BOND=         0.8838  SC_ANGLE=         2.2731  SC_DIHED   =         0.6561
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -1.6726  SC_DERIV   =        -1.6726
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      600   TIME(PS) =     307.200  TEMP(K) =   292.15  PRESS =     0.0
+ Etot   =    -11824.9689  EKtot   =      2618.2888  EPtot      =    -14443.2577
+ BOND   =        11.3842  ANGLE   =        33.7746  DIHED      =        37.4849
+ 1-4 NB =        15.9892  1-4 EEL =      -510.8243  VDWAALS    =      2038.4574
+ EELEC  =    -16069.5237  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9930
+ DV/DL  =      -199.3454
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14391.237189
+Energy at 0.2000 =    -14391.237189
+Energy at 0.5000 =    -14454.122617
+Energy at 0.5000 =    -14454.122617
+Energy at 0.6000 =    -14473.877244
+Energy at 0.6000 =    -14473.877244
+Energy at 1.0000 =    -14551.717747
+Energy at 1.0000 =    -14551.717747
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      650   TIME(PS) =     307.300  TEMP(K) =   297.41  PRESS =     0.0
+ Etot   =    -11806.6304  EKtot   =      2667.2469  EPtot      =    -14473.8772
+ BOND   =        14.2631  ANGLE   =        27.9113  DIHED      =        40.2328
+ 1-4 NB =        15.1043  1-4 EEL =      -512.6860  VDWAALS    =      1964.4996
+ EELEC  =    -16023.2024  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9931
+ DV/DL  =      -196.5016
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         354.77
+ SC_Etot=         5.7394  SC_EKtot=         2.1150  SC_EPtot   =         3.6245
+ SC_BOND=         2.3136  SC_ANGLE=         0.8425  SC_DIHED   =         0.4684
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -1.9003  SC_DERIV   =        -1.9003
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      650   TIME(PS) =     307.300  TEMP(K) =   297.37  PRESS =     0.0
+ Etot   =    -11808.7454  EKtot   =      2665.1319  EPtot      =    -14473.8772
+ BOND   =        14.2631  ANGLE   =        27.9113  DIHED      =        40.2328
+ 1-4 NB =        15.1043  1-4 EEL =      -512.6860  VDWAALS    =      1964.4996
+ EELEC  =    -16023.2024  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9930
+ DV/DL  =      -196.5016
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14339.880248
+Energy at 0.2000 =    -14339.880248
+Energy at 0.5000 =    -14399.828121
+Energy at 0.5000 =    -14399.828121
+Energy at 0.6000 =    -14419.477253
+Energy at 0.6000 =    -14419.477253
+Energy at 1.0000 =    -14497.577720
+Energy at 1.0000 =    -14497.577720
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      700   TIME(PS) =     307.400  TEMP(K) =   293.37  PRESS =     0.0
+ Etot   =    -11788.4370  EKtot   =      2631.0403  EPtot      =    -14419.4773
+ BOND   =        15.8727  ANGLE   =        46.3008  DIHED      =        43.9021
+ 1-4 NB =        14.7407  1-4 EEL =      -512.1989  VDWAALS    =      2055.0259
+ EELEC  =    -16083.1204  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9931
+ DV/DL  =      -196.0942
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         666.03
+ SC_Etot=         5.8695  SC_EKtot=         3.9706  SC_EPtot   =         1.8990
+ SC_BOND=         0.9699  SC_ANGLE=         0.9156  SC_DIHED   =         0.0135
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.8431  SC_DERIV   =        -0.8431
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      700   TIME(PS) =     307.400  TEMP(K) =   293.13  PRESS =     0.0
+ Etot   =    -11792.4075  EKtot   =      2627.0697  EPtot      =    -14419.4773
+ BOND   =        15.8727  ANGLE   =        46.3008  DIHED      =        43.9021
+ 1-4 NB =        14.7407  1-4 EEL =      -512.1989  VDWAALS    =      2055.0259
+ EELEC  =    -16083.1204  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9930
+ DV/DL  =      -196.0942
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14359.052604
+Energy at 0.2000 =    -14359.052604
+Energy at 0.5000 =    -14418.157894
+Energy at 0.5000 =    -14418.157894
+Energy at 0.6000 =    -14437.357861
+Energy at 0.6000 =    -14437.357861
+Energy at 1.0000 =    -14513.449077
+Energy at 1.0000 =    -14513.449077
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      750   TIME(PS) =     307.500  TEMP(K) =   297.00  PRESS =     0.0
+ Etot   =    -11773.7830  EKtot   =      2663.5748  EPtot      =    -14437.3579
+ BOND   =        15.3017  ANGLE   =        33.8965  DIHED      =        38.5318
+ 1-4 NB =        15.3234  1-4 EEL =      -510.9590  VDWAALS    =      1987.3729
+ EELEC  =    -16016.8251  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9931
+ DV/DL  =      -191.4245
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         270.61
+ SC_Etot=         5.2413  SC_EKtot=         1.6132  SC_EPtot   =         3.6280
+ SC_BOND=         2.1218  SC_ANGLE=         1.4043  SC_DIHED   =         0.1019
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -1.1965  SC_DERIV   =        -1.1965
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      750   TIME(PS) =     307.500  TEMP(K) =   297.02  PRESS =     0.0
+ Etot   =    -11775.3963  EKtot   =      2661.9616  EPtot      =    -14437.3579
+ BOND   =        15.3017  ANGLE   =        33.8965  DIHED      =        38.5318
+ 1-4 NB =        15.3234  1-4 EEL =      -510.9590  VDWAALS    =      1987.3729
+ EELEC  =    -16016.8251  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45322.1429
+                                                    Density    =         0.9930
+ DV/DL  =      -191.4245
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14354.026080
+Energy at 0.2000 =    -14354.026080
+Energy at 0.5000 =    -14412.860885
+Energy at 0.5000 =    -14412.860885
+Energy at 0.6000 =    -14432.036838
+Energy at 0.6000 =    -14432.036838
+Energy at 1.0000 =    -14508.152666
+Energy at 1.0000 =    -14508.152666
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      800   TIME(PS) =     307.600  TEMP(K) =   296.59  PRESS =     0.0
+ Etot   =    -11772.1387  EKtot   =      2659.8982  EPtot      =    -14432.0368
+ BOND   =        12.5490  ANGLE   =        26.9581  DIHED      =        43.1250
+ 1-4 NB =        16.7902  1-4 EEL =      -505.9475  VDWAALS    =      2063.8051
+ EELEC  =    -16089.3168  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9942
+ DV/DL  =      -191.2752
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         635.98
+ SC_Etot=         8.3175  SC_EKtot=         3.7915  SC_EPtot   =         4.5261
+ SC_BOND=         1.2895  SC_ANGLE=         3.0133  SC_DIHED   =         0.2233
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.9856  SC_DERIV   =        -0.9856
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      800   TIME(PS) =     307.600  TEMP(K) =   296.37  PRESS =     0.0
+ Etot   =    -11775.9301  EKtot   =      2656.1067  EPtot      =    -14432.0368
+ BOND   =        12.5490  ANGLE   =        26.9581  DIHED      =        43.1250
+ 1-4 NB =        16.7902  1-4 EEL =      -505.9475  VDWAALS    =      2063.8051
+ EELEC  =    -16089.3168  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9941
+ DV/DL  =      -191.2752
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14369.914784
+Energy at 0.2000 =    -14369.914784
+Energy at 0.5000 =    -14424.153913
+Energy at 0.5000 =    -14424.153913
+Energy at 0.6000 =    -14441.874534
+Energy at 0.6000 =    -14441.874534
+Energy at 1.0000 =    -14512.262270
+Energy at 1.0000 =    -14512.262270
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      850   TIME(PS) =     307.700  TEMP(K) =   291.19  PRESS =     0.0
+ Etot   =    -11830.4346  EKtot   =      2611.4399  EPtot      =    -14441.8745
+ BOND   =        17.4670  ANGLE   =        24.9827  DIHED      =        41.4243
+ 1-4 NB =        14.1849  1-4 EEL =      -504.1518  VDWAALS    =      1968.0166
+ EELEC  =    -16003.7983  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9942
+ DV/DL  =      -176.8014
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         205.82
+ SC_Etot=         3.6361  SC_EKtot=         1.2270  SC_EPtot   =         2.4091
+ SC_BOND=         2.1783  SC_ANGLE=         0.1945  SC_DIHED   =         0.0362
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.8321  SC_DERIV   =        -0.8321
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      850   TIME(PS) =     307.700  TEMP(K) =   291.25  PRESS =     0.0
+ Etot   =    -11831.6616  EKtot   =      2610.2129  EPtot      =    -14441.8745
+ BOND   =        17.4670  ANGLE   =        24.9827  DIHED      =        41.4243
+ 1-4 NB =        14.1849  1-4 EEL =      -504.1518  VDWAALS    =      1968.0166
+ EELEC  =    -16003.7983  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9941
+ DV/DL  =      -176.8014
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14477.942954
+Energy at 0.2000 =    -14477.942954
+Energy at 0.5000 =    -14532.793705
+Energy at 0.5000 =    -14532.793705
+Energy at 0.6000 =    -14550.772355
+Energy at 0.6000 =    -14550.772355
+Energy at 1.0000 =    -14622.193741
+Energy at 1.0000 =    -14622.193741
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      900   TIME(PS) =     307.800  TEMP(K) =   299.45  PRESS =     0.0
+ Etot   =    -11865.2427  EKtot   =      2685.5296  EPtot      =    -14550.7724
+ BOND   =        12.6703  ANGLE   =        26.9631  DIHED      =        44.9707
+ 1-4 NB =        15.4984  1-4 EEL =      -511.2537  VDWAALS    =      2109.3783
+ EELEC  =    -16248.9995  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9942
+ DV/DL  =      -179.4006
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         213.55
+ SC_Etot=         6.1601  SC_EKtot=         1.2731  SC_EPtot   =         4.8871
+ SC_BOND=         0.9325  SC_ANGLE=         3.6784  SC_DIHED   =         0.2761
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.8471  SC_DERIV   =        -0.8471
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      900   TIME(PS) =     307.800  TEMP(K) =   299.51  PRESS =     0.0
+ Etot   =    -11866.5158  EKtot   =      2684.2566  EPtot      =    -14550.7724
+ BOND   =        12.6703  ANGLE   =        26.9631  DIHED      =        44.9707
+ 1-4 NB =        15.4984  1-4 EEL =      -511.2537  VDWAALS    =      2109.3783
+ EELEC  =    -16248.9995  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9941
+ DV/DL  =      -179.4006
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14460.235850
+Energy at 0.2000 =    -14460.235850
+Energy at 0.5000 =    -14518.124163
+Energy at 0.5000 =    -14518.124163
+Energy at 0.6000 =    -14537.200511
+Energy at 0.6000 =    -14537.200511
+Energy at 1.0000 =    -14613.138484
+Energy at 1.0000 =    -14613.138484
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =      950   TIME(PS) =     307.900  TEMP(K) =   299.92  PRESS =     0.0
+ Etot   =    -11847.4730  EKtot   =      2689.7275  EPtot      =    -14537.2005
+ BOND   =        11.4003  ANGLE   =        33.9272  DIHED      =        45.9249
+ 1-4 NB =        15.9885  1-4 EEL =      -511.4451  VDWAALS    =      2218.6641
+ EELEC  =    -16351.6604  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9942
+ DV/DL  =      -190.4785
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         244.18
+ SC_Etot=         4.3007  SC_EKtot=         1.4557  SC_EPtot   =         2.8450
+ SC_BOND=         0.8605  SC_ANGLE=         1.9246  SC_DIHED   =         0.0598
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.6336  SC_DERIV   =        -0.6336
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =      950   TIME(PS) =     307.900  TEMP(K) =   299.96  PRESS =     0.0
+ Etot   =    -11848.9287  EKtot   =      2688.2718  EPtot      =    -14537.2005
+ BOND   =        11.4003  ANGLE   =        33.9272  DIHED      =        45.9249
+ 1-4 NB =        15.9885  1-4 EEL =      -511.4451  VDWAALS    =      2218.6641
+ EELEC  =    -16351.6604  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45272.8319
+                                                    Density    =         0.9941
+ DV/DL  =      -190.4785
+ ------------------------------------------------------------------------------
+
+
+MBAR Energy analysis:
+Energy at 0.2000 =    -14477.272707
+Energy at 0.2000 =    -14477.272707
+Energy at 0.5000 =    -14536.441410
+Energy at 0.5000 =    -14536.441410
+Energy at 0.6000 =    -14555.841772
+Energy at 0.6000 =    -14555.841772
+Energy at 1.0000 =    -14632.920906
+Energy at 1.0000 =    -14632.920906
+ ------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =   292.96  PRESS =     0.0
+ Etot   =    -11928.5402  EKtot   =      2627.3016  EPtot      =    -14555.8418
+ BOND   =        15.9042  ANGLE   =        40.7832  DIHED      =        38.2331
+ 1-4 NB =        15.8481  1-4 EEL =      -519.6915  VDWAALS    =      2075.2491
+ EELEC  =    -16222.1680  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45620.6771
+                                                    Density    =         0.9866
+ DV/DL  =      -193.5943
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         133.58
+ SC_Etot=         4.0800  SC_EKtot=         0.7964  SC_EPtot   =         3.2836
+ SC_BOND=         1.6983  SC_ANGLE=         1.3746  SC_DIHED   =         0.2107
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.8965  SC_DERIV   =        -0.8965
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =   293.06  PRESS =     0.0
+ Etot   =    -11929.3366  EKtot   =      2626.5052  EPtot      =    -14555.8418
+ BOND   =        15.9042  ANGLE   =        40.7832  DIHED      =        38.2331
+ 1-4 NB =        15.8481  1-4 EEL =      -519.6915  VDWAALS    =      2075.2491
+ EELEC  =    -16222.1680  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45620.6771
+                                                    Density    =         0.9865
+ DV/DL  =      -193.5943
+ ------------------------------------------------------------------------------
+
+|===============================================================================
+
+| TI region  1
+
+
+      A V E R A G E S   O V E R    1000 S T E P S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =   298.79  PRESS =     0.0
+ Etot   =    -11761.5254  EKtot   =      2679.6446  EPtot      =    -14441.1700
+ BOND   =        11.8762  ANGLE   =        32.8965  DIHED      =        40.0376
+ 1-4 NB =        15.8470  1-4 EEL =      -510.4433  VDWAALS    =      2065.2632
+ EELEC  =    -16096.6474  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45476.6886
+                                                    Density    =         0.9897
+ DV/DL  =      -190.3031
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         299.29
+ SC_Etot=         4.4830  SC_EKtot=         1.7842  SC_EPtot   =         2.6988
+ SC_BOND=         1.0297  SC_ANGLE=         1.4877  SC_DIHED   =         0.1814
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.7859  SC_DERIV   =        -0.7859
+ ------------------------------------------------------------------------------
+
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =     4.74  PRESS =     0.0
+ Etot   =        78.3951  EKtot   =        42.5410  EPtot      =        65.9110
+ BOND   =         2.5760  ANGLE   =         4.1414  DIHED      =         2.4459
+ 1-4 NB =         1.2090  1-4 EEL =         4.2748  VDWAALS    =        58.9796
+ EELEC  =       103.7890  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =       188.6276
+                                                    Density    =         0.0041
+ DV/DL  =         5.7666
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         147.10
+ SC_Etot=         1.3056  SC_EKtot=         0.8770  SC_EPtot   =         1.1578
+ SC_BOND=         0.7531  SC_ANGLE=         0.8447  SC_DIHED   =         0.2133
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=       0.3826  SC_DERIV   =         0.3826
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+      A V E R A G E S   O V E R    1000 S T E P S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =   298.79  PRESS =     0.0
+ Etot   =    -11763.3096  EKtot   =      2677.8604  EPtot      =    -14441.1700
+ BOND   =        11.8762  ANGLE   =        32.8965  DIHED      =        40.0376
+ 1-4 NB =        15.8470  1-4 EEL =      -510.4433  VDWAALS    =      2065.2632
+ EELEC  =    -16096.6474  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45476.6886
+                                                    Density    =         0.9896
+ DV/DL  =      -190.3031
+ ------------------------------------------------------------------------------
+
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =     4.76  PRESS =     0.0
+ Etot   =        78.6144  EKtot   =        42.6934  EPtot      =        65.9110
+ BOND   =         2.5760  ANGLE   =         4.1414  DIHED      =         2.4459
+ 1-4 NB =         1.2090  1-4 EEL =         4.2748  VDWAALS    =        58.9796
+ EELEC  =       103.7890  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =       188.6276
+                                                    Density    =         0.0041
+ DV/DL  =         5.7666
+ ------------------------------------------------------------------------------
+
+
+      DV/DL, AVERAGES OVER    1000 STEPS
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =     4.76  PRESS =     0.0
+ Etot   =         0.0000  EKtot   =         0.0000  EPtot      =      -188.3793
+ BOND   =         0.0000  ANGLE   =         0.0000  DIHED      =         0.0000
+ 1-4 NB =         0.0617  1-4 EEL =      -205.2004  VDWAALS    =        -0.7693
+ EELEC  =        16.3909  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =         0.0000
+                                                    Density    =         0.0000
+ DV/DL  =      -188.3793
+ ------------------------------------------------------------------------------
+
+|===============================================================================
+
+| TI region  1
+
+
+      A V E R A G E S   O V E R    1000 S T E P S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =   298.79  PRESS =     0.0
+ Etot   =    -11761.5254  EKtot   =      2679.6446  EPtot      =    -14441.1700
+ BOND   =        11.8762  ANGLE   =        32.8965  DIHED      =        40.0376
+ 1-4 NB =        15.8470  1-4 EEL =      -510.4433  VDWAALS    =      2065.2632
+ EELEC  =    -16096.6474  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45476.6886
+                                                    Density    =         0.9897
+ DV/DL  =      -190.3031
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         299.29
+ SC_Etot=         4.4830  SC_EKtot=         1.7842  SC_EPtot   =         2.6988
+ SC_BOND=         1.0297  SC_ANGLE=         1.4877  SC_DIHED   =         0.1814
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=      -0.7859  SC_DERIV   =        -0.7859
+ ------------------------------------------------------------------------------
+
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =     4.74  PRESS =     0.0
+ Etot   =        78.3951  EKtot   =        42.5410  EPtot      =        65.9110
+ BOND   =         2.5760  ANGLE   =         4.1414  DIHED      =         2.4459
+ 1-4 NB =         1.2090  1-4 EEL =         4.2748  VDWAALS    =        58.9796
+ EELEC  =       103.7890  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =       188.6276
+                                                    Density    =         0.0041
+ DV/DL  =         5.7666
+ ------------------------------------------------------------------------------
+
+  Softcore part of the system:       2 atoms,       TEMP(K)    =         147.10
+ SC_Etot=         1.3056  SC_EKtot=         0.8770  SC_EPtot   =         1.1578
+ SC_BOND=         0.7531  SC_ANGLE=         0.8447  SC_DIHED   =         0.2133
+ SC_14NB=         0.0000  SC_14EEL=         0.0000  SC_VDW     =         0.0000
+ SC_EEL =         0.0000
+ SC_RES_DIST=     0.0000  SC_RES_ANG=       0.0000  SC_RES_TORS=         0.0000
+ SC_EEL_DER=      0.0000  SC_VDW_DER=       0.3826  SC_DERIV   =         0.3826
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+      A V E R A G E S   O V E R    1000 S T E P S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =   298.79  PRESS =     0.0
+ Etot   =    -11763.3096  EKtot   =      2677.8604  EPtot      =    -14441.1700
+ BOND   =        11.8762  ANGLE   =        32.8965  DIHED      =        40.0376
+ 1-4 NB =        15.8470  1-4 EEL =      -510.4433  VDWAALS    =      2065.2632
+ EELEC  =    -16096.6474  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =     45476.6886
+                                                    Density    =         0.9896
+ DV/DL  =      -190.3031
+ ------------------------------------------------------------------------------
+
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =     4.76  PRESS =     0.0
+ Etot   =        78.6144  EKtot   =        42.6934  EPtot      =        65.9110
+ BOND   =         2.5760  ANGLE   =         4.1414  DIHED      =         2.4459
+ 1-4 NB =         1.2090  1-4 EEL =         4.2748  VDWAALS    =        58.9796
+ EELEC  =       103.7890  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =       188.6276
+                                                    Density    =         0.0041
+ DV/DL  =         5.7666
+ ------------------------------------------------------------------------------
+
+
+      DV/DL, AVERAGES OVER    1000 STEPS
+
+
+ NSTEP =     1000   TIME(PS) =     308.000  TEMP(K) =     4.76  PRESS =     0.0
+ Etot   =         0.0000  EKtot   =         0.0000  EPtot      =      -188.3793
+ BOND   =         0.0000  ANGLE   =         0.0000  DIHED      =         0.0000
+ 1-4 NB =         0.0617  1-4 EEL =      -205.2004  VDWAALS    =        -0.7693
+ EELEC  =        16.3909  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =         0.0000
+                                                    Density    =         0.0000
+ DV/DL  =      -188.3793
+ ------------------------------------------------------------------------------
+
+| MC Barostat:         10 volume changes attempted.
+| MC Barostat:          6 changes successful ( 60.00%)
+ ------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+   5.  TIMINGS
+--------------------------------------------------------------------------------
+
+|  NonSetup CPU Time in Major Routines:
+|
+|     Routine           Sec        %
+|     ------------------------------
+|     Nonbond           0.30   79.98
+|     Bond              0.00    0.00
+|     Angle             0.00    0.00
+|     Dihedral          0.00    0.00
+|     Shake             0.00    0.82
+|     RunMD             0.07   17.77
+|     Other             0.01    1.43
+|     ------------------------------
+|     Total             0.38
+
+|  PME Nonbond Pairlist CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     Set Up Cit           0.00    0.00
+|     Build List           0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  PME Direct Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     NonBonded Calc       0.00    0.00
+|     Exclude Masked       0.00    0.00
+|     Other                0.00    0.45
+|     ---------------------------------
+|     Total                0.00    0.45
+
+|  PME Reciprocal Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     1D bspline           0.00    0.00
+|     Grid Charges         0.00    0.00
+|     Scalar Sum           0.00    0.00
+|     Gradient Sum         0.00    0.00
+|     FFT                  0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  Final Performance Info:
+|     -----------------------------------------------------
+|     Average timings for last     950 steps:
+|     Elapsed(s) =       0.37 Per Step(ms) =       0.39
+|         ns/day =     447.65   seconds/ns =     193.01
+|
+|     Average timings for all steps:
+|     Elapsed(s) =       0.39 Per Step(ms) =       0.39
+|         ns/day =     443.33   seconds/ns =     194.89
+|     -----------------------------------------------------
+
+|  Setup CPU time:            1.15 seconds
+|  NonSetup CPU time:         0.38 seconds
+|  Total CPU time:            1.53 seconds     0.00 hours
+
+|  Setup wall time:           1    seconds
+|  NonSetup wall time:        0    seconds
+|  Total wall time:           1    seconds     0.00 hours
